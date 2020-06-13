@@ -11,8 +11,11 @@ export abstract class CommonService<E> {
 
   constructor(protected http: HttpClient) { }
 
-  getAll(): Observable<E[]> {
-    return this.http.get<E[]>(this.miUrl);
+  // getAll(): Observable<E[]> {
+  //   return this.http.get<E[]>(this.miUrl);
+  // }
+  getAll(page:number, size:number): Observable<E[]> {
+    return this.http.get<E[]>(this.miUrl+"?page="+page+"&size="+size);
   }
 
   getOne(id: number): Observable<E> {

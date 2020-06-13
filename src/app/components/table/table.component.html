@@ -47,6 +47,13 @@
                 </table>
             </div>
         </div>
+        <nav  aria-label="Page navigation example">
+            <ul class="pagination" >
+              <li class="page-item"><button class="page-link" (click)="paginaPrevia()">Previous</button></li>
+              <li class="page-item"><button class="page-link" (click)="paginaSiguiente()">Next</button></li>
+            </ul>
+          </nav>
     </div>
-</section>
+   </section>
 <app-form [personaActual]="personaActual"></app-form>
+

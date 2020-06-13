@@ -10,6 +10,8 @@ import { PersonaService } from 'src/app/services/persona.service';
 export class TableComponent implements OnInit {
 
   public personas: Persona[]=[];
+  public paginaNum: number;
+  public paginaSize: number;
 
   public personaActual: Persona = {
     id: 0,
@@ -26,15 +28,29 @@ export class TableComponent implements OnInit {
   constructor(private personaService: PersonaService) { }
 
   ngOnInit() {
+    
+    this.paginaNum = 1;
+    this.paginaSize = 10;
+
     this.getAllPersonas();
   }
-
+//METODO CON PAGINADOR
   getAllPersonas() {
-    this.personaService.getAll().subscribe( res => {
+    this.personaService.getAll(this.paginaNum,this.paginaSize).subscribe( res => {
       this.personas = res;
     });
     console.log(this.personas);
   }
+  //METODO SIN PAGINADOR
+  // getAllPersonas() {
+  //   this.personaService.getAll().subscribe( res => {
+  //     this.personas = res;      
+  //   });
+  //   console.log(this.personas);
+  //   console.log(this.paginaNum);
+  //   console.log(this.paginaSize);
+    
+  // }
 
   delete(persona: Persona) {
     const opcion = confirm('¿Desea eliminar este registro?');
@@ -51,6 +67,32 @@ export class TableComponent implements OnInit {
 
   onPreUpdate(persona: Persona) {
     this.personaActual = persona;
+  }
+
+  paginaPrevia(){
+    if(this.paginaNum > 1){
+      this.paginaNum -= 1;
+      this.getAllPersonas();
+      
+    }    
+  }
+
+  paginaSiguiente(){
+    let numtemp = this.paginaNum;
+    try{
+        this.paginaNum += 1;
+        this.getAllPersonas();
+
+    }catch{
+      alert('No se encontraron más registros');
+      this.paginaNum = numtemp;
+      this.getAllPersonas();
+      // debugger;
+      // let reviso1 = this.paginaSize;
+      // let reviso2 = this.paginaNum;
+    }
+
+
   }
 
 }
